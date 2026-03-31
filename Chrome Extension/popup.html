@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --slangy-primary: #6C5CE7;
+      --slangy-accent: #00D2D3;
+    }
+    body {
+      width: 280px;
+      padding: 0;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      color: #2D3436;
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .logo-container {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--slangy-primary), var(--slangy-accent));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 16px rgba(108, 92, 231, 0.3);
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--slangy-primary), #a29bfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .description {
+      font-size: 14px;
+      color: #636E72;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f1f2f6;
+      padding: 16px;
+      border-radius: 16px;
+    }
+    .feature-item {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2D3436;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--slangy-primary);
+      border-radius: 50%;
+    }
+    .footer {
+      margin-top: 24px;
+      font-size: 11px;
+      color: #B2BEC3;
+      text-align: center;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="logo-container">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"></path>
+        </svg>
+      </div>
+      <h1>Slangyy AI</h1>
+    </div>
+    <div class="description">
+      Your high-performance AI companion for instant text transformations.
+    </div>
+    <div class="feature-list">
+      <div class="feature-item"><div class="dot"></div> Professional Rewrite</div>
+      <div class="feature-item"><div class="dot"></div> Slangy Mode</div>
+      <div class="feature-item"><div class="dot"></div> Humanize Content</div>
+      <div class="feature-item"><div class="dot"></div> Grammar Fix</div>
+    </div>
+    <div class="footer">
+      Powered by HF Inference
+    </div>
+  </div>
+</body>
+</html>

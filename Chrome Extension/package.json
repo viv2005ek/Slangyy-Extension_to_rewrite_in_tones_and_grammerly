@@ -1,0 +1,15 @@
+{
+  "name": "slangyy-chrome-extension",
+  "version": "1.0.0",
+  "description": "Premium AI-powered text rewriter.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "text-rewriter",
+    "chrome-extension"
+  ],
+  "author": "Slangy AI",
+  "license": "MIT"
+}
