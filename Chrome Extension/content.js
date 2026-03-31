@@ -1,6 +1,6 @@
 /* --- Slangyy AI: Premium Content Script --- */
 
-(function() {
+(function () {
   let floatingBtn = null;
   let slangyPanel = null;
   let selectedText = "";
@@ -21,8 +21,8 @@
 
   function checkContext() {
     if (!chrome.runtime?.id) {
-       console.warn("Slangyy: Extension context inactivated. Please refresh the page.");
-       return false;
+      console.warn("Slangyy: Extension context inactivated. Please refresh the page.");
+      return false;
     }
     return true;
   }
@@ -35,10 +35,14 @@
   });
 
   function handleCapture(e) {
+    if (e && e.target && e.target.closest && (e.target.closest('.slangy-floating-btn') || e.target.closest('.slangy-panel'))) {
+      return;
+    }
+
     setTimeout(() => {
       const selection = window.getSelection();
       selectedText = selection.toString().trim();
-      
+
       const activeEl = document.activeElement;
       if (!selectedText && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
         const start = activeEl.selectionStart;
@@ -66,6 +70,10 @@
       floatingBtn.className = 'slangy-floating-btn';
       floatingBtn.innerHTML = SVGS.SPARK;
       document.body.appendChild(floatingBtn);
+      floatingBtn.onmousedown = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
       floatingBtn.onclick = (e) => {
         e.stopPropagation();
         showPanel();
@@ -74,19 +82,19 @@
     }
     const sx = window.pageXOffset || document.documentElement.scrollLeft;
     const sy = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     floatingBtn.style.left = `${selectionRect.right + sx - 10}px`;
     floatingBtn.style.top = `${selectionRect.bottom + sy + 10}px`;
     floatingBtn.style.display = 'flex';
   }
 
-  function hideBtn() { 
-    if (floatingBtn) floatingBtn.style.display = 'none'; 
+  function hideBtn() {
+    if (floatingBtn) floatingBtn.style.display = 'none';
   }
-  
-  function hideAll() { 
-    hideBtn(); 
-    if (slangyPanel) slangyPanel.style.display = 'none'; 
+
+  function hideAll() {
+    hideBtn();
+    if (slangyPanel) slangyPanel.style.display = 'none';
   }
 
   function showPanel() {
@@ -117,9 +125,11 @@
 
       const trigger = document.getElementById('slangy-p-trigger');
       const menu = document.getElementById('slangy-p-menu');
+      trigger.onmousedown = (e) => e.preventDefault();
       trigger.onclick = () => menu.classList.toggle('active');
-      
+
       menu.querySelectorAll('.slangy-dropdown-item').forEach(item => {
+        item.onmousedown = (e) => e.preventDefault();
         item.onclick = (e) => {
           e.stopPropagation();
           currentStyle = item.getAttribute('data-val');
@@ -128,7 +138,9 @@
         };
       });
 
-      document.getElementById('slangy-p-rewrite').onclick = runRewrite;
+      const rewriteBtn = document.getElementById('slangy-p-rewrite');
+      rewriteBtn.onmousedown = (e) => e.preventDefault();
+      rewriteBtn.onclick = runRewrite;
       document.getElementById('slangy-p-copy').onclick = (e) => {
         const text = document.getElementById('slangy-p-res-text').innerText;
         navigator.clipboard.writeText(text).then(() => {
@@ -141,17 +153,17 @@
 
     const sx = window.pageXOffset || document.documentElement.scrollLeft;
     const sy = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     let left = selectionRect.left + sx;
     let top = selectionRect.bottom + sy + 15;
-    
+
     if (left + 340 > window.innerWidth) left = window.innerWidth - 360;
     if (left < 10) left = 10;
 
     slangyPanel.style.left = `${left}px`;
     slangyPanel.style.top = `${top}px`;
     slangyPanel.style.display = 'block';
-    
+
     document.getElementById('slangy-p-res-box').style.display = 'none';
     document.getElementById('slangy-p-rewrite').disabled = false;
     document.getElementById('slangy-p-rewrite').innerText = "Rewrite Selection";
@@ -162,11 +174,11 @@
     const btn = document.getElementById('slangy-p-rewrite');
     const resBox = document.getElementById('slangy-p-res-box');
     const resText = document.getElementById('slangy-p-res-text');
-    
+
     btn.disabled = true;
     btn.innerText = "⚡ Thinking...";
     resText.innerText = "";
-    
+
     // Manage user expectations for long (up to 2m) waits
     const timer1 = setTimeout(() => { if (btn.disabled) btn.innerText = "AI is processing (Hold on)..."; }, 15000);
     const timer2 = setTimeout(() => { if (btn.disabled) btn.innerText = "Generating (Wait ~1-2m)..."; }, 40000);
@@ -179,10 +191,10 @@
       // Clear timers
       clearTimeout(timer1);
       clearTimeout(timer2);
-      
+
       btn.disabled = false;
       btn.innerText = "Rewrite Selection";
-      
+
       if (r && r.success) {
         resBox.style.display = 'block';
         resText.innerText = r.rewritten_text;
